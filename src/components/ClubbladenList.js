@@ -13,11 +13,11 @@ class  ClubbladenList extends Component {
     }
     
     renderClubbladen(){
-       return this.state.clubbladen.map(clubblad => <ClubbladDetail key={clubblad.Number} clubblad={clubblad}/>)
+       return this.state.clubbladen.map(clubblad => <ClubbladDetail key={clubblad.number} clubblad={clubblad} callback={this.props.callback}/>)
     }
 
     render() {
-
+        
         return(
             <View>
                 <ScrollView>

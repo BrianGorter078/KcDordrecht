@@ -1,23 +1,56 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { Text, View, Button, Image, TouchableWithoutFeedback } from 'react-native';
 
-const Header = (props) => {
-    const { textStyle, viewStyle } = styles;
+class Header extends Component {
+    constructor(props){
+        super(props)
+        this.onPressBack = this.onPressBack.bind(this)
+    }
 
-    return (
-        <View style={viewStyle}>
-            <Text style={textStyle}> {props.headerText} </Text>
-        </View>
-    );
+    onPressBack(){
+        this.props.backPressedCallback()
+    }
+    
+    render(){
+        if(!this.props.backButton){
+            return (
+                <View style={styles.viewStyle}>
+                    <Text style={styles.textStyle}> {this.props.headerText} </Text>
+                </View>
+            );
+        }
+
+        return (
+            <View style={styles.viewStyleWithButton}>
+                <TouchableWithoutFeedback onPress={this.onPressBack}>
+                    <Image style={styles.backButton} source={require('../assets/arrow-left.png')}/>
+                </TouchableWithoutFeedback>
+                <Text style={styles.textStyle}> {this.props.headerText} </Text>
+                <Image style={styles.hidden} source={require('../assets/arrow-left.png')}/>
+
+            </View>
+        )
+    }
 }
 
 const styles = {
     
     viewStyle: {
+        flexDirection: 'row',
         backgroundColor: '#4285f4',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 20, 
+        height: 60,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2},
+        shadowOpacity: 0.1
+    },
+
+    viewStyleWithButton: {
+        flexDirection: 'row',
+        backgroundColor: '#4285f4',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         height: 60,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2},
@@ -26,7 +59,16 @@ const styles = {
 
     textStyle: {
         color: 'white',
-        fontSize: 20
+        fontSize: 25,
+        paddingBottom: 1
+    },
+    backButton: {
+        marginLeft: 5
+    },
+
+    hidden: {
+        opacity: 0,
+        marginRight: 5
     }
 }
 
