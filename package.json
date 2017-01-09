@@ -7,9 +7,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "native-base": "^0.5.20",
     "react": "15.4.1",
     "react-native": "0.39.2",
-    "react-native-pdf-view": "^0.3.2"
+    "react-native-file-opener": "^0.2.0",
+    "react-native-material-ui": "^1.5.0",
+    "react-native-pdf-view": "^0.3.2",
+    "react-native-vector-icons": "^4.0.0"
   },
   "devDependencies": {
     "babel-jest": "18.0.0",

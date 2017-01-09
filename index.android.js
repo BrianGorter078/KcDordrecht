@@ -1,74 +1,118 @@
 import React , {Component} from 'react';
-import { AppRegistry, View, ScrollView, RefreshControl, StatusBar, BackAndroid} from 'react-native';
+import { AppRegistry, View, StatusBar, BackAndroid, Linking, Alert} from 'react-native';
 
-import Header from './src/components/Header';
-import ClubbladenList from './src/components/ClubbladenList';
-import PDFView from 'react-native-pdf-view';
-import RNFS from 'react-native-fs'; 
+import ClubbladenList from './src/components/clubblad/ClubbladenList';
+
+import { Container, Content, Header, Title, Icon, Button, Footer, FooterTab } from 'native-base';
+import myTheme from './src/Themes/MyTheme';
+import TwitterTimeLine from './src/components/twitter/TwitterTimeLine';
+import RNFS from 'react-native-fs';
 
 
 class KcDordrechtApp extends Component {
 
   constructor(props){
+    console.ignoredYellowBox = ['Warning: ReactNative.createElement'];
     super(props)
-    this.state = {showingPDF: false, pdf: "", backButton: false}
-    this.renderPDF = this.renderPDF.bind(this)
-    this.backPressed = this.backPressed.bind(this)
+    this.state = {active: "clubblad"}
+    this.rightFooterTabOnPress = this.rightFooterTabOnPress.bind(this)
+    this.leftFooterTabOnPress = this.leftFooterTabOnPress.bind(this)
 
     BackAndroid.addEventListener('hardwareBackPress',function(){
-      console.warn(this.state)
-      if(this.state.showingPDF)
-      {
-        this.backPressed();
-        return true
-      }
-
-      return false
-    }.bind(this));
+      Alert.alert(
+                    'Applicatie Sluiten',
+                    'Weet je zeker dat je de applicatie wilt sluiten?',
+                    [
+                        {text: 'Blijf', onPress: () => {return true}},
+                        {text: 'Sluit', onPress: () => {BackAndroid.exitApp()}},
+                    ]
+                )
+    return true;
+  }.bind(this));
 
   }
-    backPressed(){
-    this.setState({showingPDF: false, backButton: false, pdf: "", clubblad:null})
+  leftFooterTabOnPress(){
+    this.setState({active: "clubblad"})
   }
-
+  rightFooterTabOnPress(){
+    this.setState({active: "twitter"})
+  }
   renderPDF(pdfUrl, clubbladNumber){
-    this.setState({showingPDF: true, pdf: "/" + pdfUrl, clubblad: clubbladNumber, backButton: true})
+    this.setState({showingPDF: true, pdf: "/" + pdfUrl, clubblad: clubbladNumber, backButton: true});
+  }
+  renderFooterTabs(){
+      if(this.state.active === "clubblad"){
+        return(
+          <FooterTab>
+            <Button active onPress={this.leftFooterTabOnPress}>
+              Clubbladen
+              <Icon name='ios-book' />
+            </Button>
+            <Button onPress={this.rightFooterTabOnPress}>
+              Twitter
+              <Icon name='logo-twitter' />
+            </Button>
+          </FooterTab>
+        )
+    }
+        return(
+          <FooterTab>
+            <Button onPress={this.leftFooterTabOnPress}>
+              Clubbladen
+              <Icon name='ios-book' />
+            </Button>
+            <Button active onPress={this.rightFooterTabOnPress}>
+              Twitter
+              <Icon name='logo-twitter' />
+            </Button>
+          </FooterTab>
+        );
   }
    
   render() {
-    console.log(this.state.showingPDF)
-    if(!this.state.showingPDF){
-      return (
-        <View>
-          <StatusBar backgroundColor="#3367d6"/> 
-          <Header headerText="Clubbladen" backButton={this.state.backButton} backPressedCallback={this.backPressed}/>
-          <ClubbladenList callback={this.renderPDF}/>
-        </View>
+      if(this.state.active == "twitter"){
+      return(
+            <Container>
+                <Header>
+
+                    <Title>Twitter</Title>
+
+                </Header>
+
+                <Content theme={myTheme}>
+                  <StatusBar backgroundColor="#3367d6"/>
+                  <TwitterTimeLine/>
+                </Content>
+                  
+                <Footer>
+                      {this.renderFooterTabs()}
+                </Footer>
+            </Container>
       );
     }
-    if(this.state.showingPDF){
+
+    if(this.state.active == "clubblad"){
       return (
-        <View style={{flex: 1}}>
-          <StatusBar backgroundColor="#3367d6"/> 
-          <Header headerText={"Clubblad " + this.state.clubblad} backButton={this.state.backButton} backPressedCallback={this.backPressed}/>
-          <PDFView ref={(pdf)=>{this.pdfView = pdf;}}
-                          path={RNFS.DocumentDirectoryPath+this.state.pdf}
-                          onLoadComplete = {(pageCount)=>{
-                              this.pdfView.setNativeProps({
-                                  zoom: 1
-                              });
-                          }}
-                          style={styles.pdf}/>
-        </View>
-      )
+            <Container>
+
+                <Header>
+                    <Title>Clubbladen</Title>
+                </Header>
+
+                <Content theme={myTheme}>
+                  <StatusBar backgroundColor="#3367d6"/>
+                  <ClubbladenList callback={this.renderPDF}/>
+                </Content>
+
+                <Footer>
+                      {this.renderFooterTabs()}
+                </Footer>
+            </Container>
+      );
     }
   }
 }
 
-const styles = {
-  pdf: {
-    flex: 1
-  }
-}
+
 
 AppRegistry.registerComponent('KcDordrechtApp', () => KcDordrechtApp);
