@@ -12,7 +12,7 @@ import RNFS from 'react-native-fs';
 class KcDordrechtApp extends Component {
 
   constructor(props){
-    console.ignoredYellowBox = ['Warning: ReactNative.createElement'];
+
     super(props)
     this.state = {active: "clubblad"}
     this.rightFooterTabOnPress = this.rightFooterTabOnPress.bind(this)

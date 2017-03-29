@@ -10,6 +10,9 @@ class TwitterCard extends Component {
         months = ["jan.", "feb.", "mrt.", "apr.","mei","jun.","jul.","aug.","sept.","okt.","nov.","dec."]
         date = new Date(Date.parse(this.props.tweet.created_at));
     }
+    getDate(){
+        return date.getHours()+":"+(date.getMinutes()<10?"0":"")+date.getMinutes() + " - " + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear()
+    }
 
     render(){
 
@@ -22,7 +25,7 @@ class TwitterCard extends Component {
                 </CardItem>
                 <CardItem>   
                     <Text style={{marginLeft:2}}>{this.props.tweet.text}</Text>
-                    <Text note style={{fontSize:10}}> {date.getHours()+":"+(date.getMinutes()<10?"0":"")+date.getMinutes() + " - " + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear()}</Text>
+                    <Text note style={{fontSize:10}}> {this.getDate()}</Text>
                 </CardItem>
             </Card>
         );

@@ -11,7 +11,6 @@ import TwitterTimeLine from './src/components/twitter/TwitterTimeLine';
 class KcDordrechtApp extends Component {
 
   constructor(props){
-    console.ignoredYellowBox = ['Warning: flattenChildren(...)'];
 
     super(props)
     this.state = {showingPDF: false, pdf: "", backButton: false, active: "clubblad"}
@@ -120,7 +119,7 @@ class KcDordrechtApp extends Component {
               </Header>
               <View style={{flex:1}}>     
                 <StatusBar  barStyle="light-content"/>
-                <WebView source={{uri:RNFS.DocumentDirectoryPath+this.state.pdf}}/>
+                <WebView scalesPageToFit={true} source={{uri:RNFS.DocumentDirectoryPath+this.state.pdf}}/>
               </View>
             </Container>
           

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, ToastAndroid, Alert, Platform} from 'react-native';
+import { Text, ToastAndroid, Alert, Platform, TouchableHighlight} from 'react-native';
 import Card from '../card/Card';
 import CardSection from '../card/CardSection';
 
@@ -82,11 +82,12 @@ import FileOpener from 'react-native-file-opener';
 
     render(){   
             return(
-                <Card onDevice={this.props.onDevice}>
-                    <CardSection onDevice={this.props.onDevice}>
+                <Card>
+                    <CardSection>
                         <Text onPress={this.onPress} onLongPress={this.onLongPress} style={styles.textStyle}>Clubblad {this.props.clubblad.number}</Text>
                     </CardSection>
                 </Card>
+
             ); 
     }
 }

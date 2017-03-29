@@ -7,19 +7,10 @@ class ClubbladCard extends Component {
     }
 
     render(){
-        if(this.props.onDevice){
         return (
             <Card> 
                 {this.props.children}
             </Card>
-        );
-        }
-
-        return (
-            <Card> 
-                {this.props.children}
-            </Card>
-
         );
     }
 }

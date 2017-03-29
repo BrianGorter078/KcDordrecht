@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, RefreshControl, ToastAndroid } from 'react-native';
-import  { Card, CardItem }  from 'native-base';
+import  { Card, CardItem}  from 'native-base';
 import TwitterCard from './TwitterCard';
 
 import axios from 'axios';
@@ -21,6 +21,10 @@ class TwitterTimeLine extends Component{
 
         instance.get("/tweets.json?q=kcdordt&count=30").then(response => {
             this.setState({timeline: response.data.statuses})
+        }).catch(err => {
+            if(err != null){
+                console.log("error " + err )
+            }
         })
     }
     componentWillUnmount(){
@@ -33,11 +37,18 @@ class TwitterTimeLine extends Component{
 
 
     render(){
+        if(this.state.timeline.length != 0){
+            return(
+                <View style={{justifyContent: 'center'}}>
+                    {this.renderTwitterList()}
+                </View>
+            );
+        }
         return(
-            <View style={{justifyContent: 'center'}}>
-                {this.renderTwitterList()}
+            <View style={{alignItems:'center', justifyContent:'center', flex:1}}>
+                    <Text style={{textAlign:'center', marginTop:10}}>Geen tweets beschikbaar, oudere tweets kunnen niet worden opgehaald</Text>
             </View>
-        );
+        )
     }
 }
 
