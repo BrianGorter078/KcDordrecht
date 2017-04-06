@@ -9,7 +9,7 @@ import TwitterTimeLine from './src/components/twitter/TwitterTimeLine';
 import RNFS from 'react-native-fs';
 
 
-class KcDordrechtApp extends Component {
+export default class KcDordrechtApp extends Component {
 
   constructor(props){
 

@@ -26,17 +26,21 @@ class  ClubbladenList extends Component {
             })
             axios.get('https://arcane-river-45274.herokuapp.com/kcd')
             .then(response => {
-                var clubbladen = []
-                response.data.map(responseitem => {
-                    if(this.state.clubbladen.length == 0){
-                        clubbladen.push(responseitem)
-                    }
-                    this.state.clubbladen.map(clubblad => {
-                        (clubblad.number != responseitem.number.toString() ? clubbladen.push(responseitem): null)
+
+                if(response.data.length > 0){
+                    var clubbladen = []
+                    response.data.map(responseitem => {
+                        if(this.state.clubbladen.length == 0){
+                            clubbladen.push(responseitem)
+                        }
+                        this.state.clubbladen.map(clubblad => {
+                            (clubblad.number != responseitem.number.toString() ? clubbladen.push(responseitem): null)
+                        })
                     })
-                })
-                var clubbladenSet = [...new Set(clubbladen)]
-                this.setState({clubbladen: clubbladenSet})
+                    var clubbladenSet = [...new Set(clubbladen)]
+                    this.setState({clubbladen: clubbladenSet})
+                }
+
                 }).catch(err => {
                     if(err == "Error: Network Error"){
                         this.setState({networkStatus: false})
